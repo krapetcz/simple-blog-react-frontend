@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axios"; // ✅ interceptor s tokenem
 
 export default function EditArticlePage() {
   const { id } = useParams();
@@ -11,17 +11,10 @@ export default function EditArticlePage() {
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
 
-  // ⬇️ Načtení dat po načtení stránky
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(`/api/articles/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        const response = await api.get(`/articles/${id}`); // ✅ token
         const article = response.data;
         setTitle(article.title);
         setContent(article.content);
@@ -35,20 +28,14 @@ export default function EditArticlePage() {
     fetchArticle();
   }, [id]);
 
-  // ⬇️ Odeslání změn
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-      await axios.put(`/api/articles/${id}`, {
+      await api.put(`/articles/${id}`, {
         title,
         content,
         image_url: image,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      }); // ✅ token
       navigate("/dashboard");
     } catch (err) {
       setError("Nepodařilo se uložit změny.");

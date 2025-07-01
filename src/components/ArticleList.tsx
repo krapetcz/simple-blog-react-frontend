@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios"; // upravený import
 import ArticleCard from "./ArticleCard";
 
 type Article = {
@@ -17,7 +17,7 @@ export default function ArticleList() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get("http://localhost:5050/api/articles");
+        const response = await api.get("/articles/");
         setArticles(response.data);
       } catch (err) {
         setError("Nepodařilo se načíst články.");

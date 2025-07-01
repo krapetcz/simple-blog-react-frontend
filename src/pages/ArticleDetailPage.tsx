@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+//import axios from "axios";
+import api from "../api/axios";
 
 type Article = {
   id: number;
@@ -20,11 +21,7 @@ export default function ArticleDetailPage() {
     const fetchArticle = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:5050/api/articles/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const response = await api.get(`/articles/${id}`);
         setArticle(response.data);
       } catch (err) {
         setError("Nepodařilo se načíst článek.");

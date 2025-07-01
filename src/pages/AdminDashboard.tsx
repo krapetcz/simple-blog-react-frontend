@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios"; // upravený import
 import { useNavigate, Link } from "react-router-dom";
 
 type Article = {
@@ -16,12 +16,7 @@ export default function AdminDashboard() {
 
   const fetchArticles = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("/api/articles", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get("/articles/"); // interceptor přidá token
       setArticles(response.data);
     } catch (err) {
       setError("Nepodařilo se načíst články.");
@@ -34,13 +29,7 @@ export default function AdminDashboard() {
     if (!confirmed) return;
 
     try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`/api/articles/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // Aktualizuj seznam po smazání
+      await api.delete(`/articles/${id}`); // interceptor přidá token
       setArticles((prev) => prev.filter((a) => a.id !== id));
     } catch (err) {
       alert("Nepodařilo se smazat článek.");

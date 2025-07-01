@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateArticlePage() {
-  const [articlename, setArticlename] = useState(""); // přidáno
+  const [articlename, setArticlename] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
@@ -12,31 +12,46 @@ export default function CreateArticlePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const token = localStorage.getItem("token");
 
-      //console.log("Token při odeslání:", token);
-      await axios.post("/api/articles", {
-        articlename,  // přidáno
-        title,
-        content,
-        image_url: image // pokud backend nezpracovává, můžeš odebrat
-      }, {
-        headers: {
-          Authorization: `Bearersss ${token}`,
-        },
-      });
+    const payload: any = {
+      articlename,
+      title,
+      content,
+    };
+
+    // pouze pokud uživatel zadal URL obrázku
+    if (image.trim() !== "") {
+      payload.image_url = image;
+    }
+
+    try {
+      await api.post("/articles/", payload);
       navigate("/dashboard");
-    } catch (err) {
-      setError("Nepodařilo se vytvořit článek.");
-      console.error(err);
+    } catch (err: any) {
+      const errorData = err?.response?.data?.error;
+
+      if (errorData && typeof errorData === "object") {
+        const errorMessages = Object.entries(errorData)
+          .map(([key, val]) => `${key}: ${(val as string[]).join(", ")}`)
+          .join(" | ");
+        setError(errorMessages);
+      } else {
+        const msg = err?.response?.data?.msg || "Nepodařilo se vytvořit článek.";
+        setError(msg);
+      }
+
+      console.error("❌ Axios chyba:", err.response?.data);
     }
   };
 
   return (
     <div className="max-w-xl mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-4">Vytvořit nový článek</h1>
-      {error && <p className="text-red-500">{error}</p>}
+      {error && (
+        <div className="text-red-500 border border-red-300 p-2 rounded bg-red-50">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
