@@ -1,3 +1,7 @@
+/* index.css */
+/* Tailwind base styles */
 @tailwind base;
+/* Tailwind component classes */
 @tailwind components;
+/* Talwind utility classes */
 @tailwind utilities;

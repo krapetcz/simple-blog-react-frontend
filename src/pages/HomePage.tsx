@@ -1,3 +1,6 @@
+// HomePage.tsx
+// Homepage component that displays a heading and a list of all blog articles
+
 import ArticleList from "../components/ArticleList";
 
 export default function HomePage() {

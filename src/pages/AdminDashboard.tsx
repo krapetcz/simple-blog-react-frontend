@@ -1,7 +1,12 @@
+// AdminDashboard.tsx
+// Admin dashboard page for managing articles
+// Allows listing, editing and deleting articles using protected API calls
+
 import { useEffect, useState } from "react";
-import api from "../api/axios"; // upravený import
+import api from "../api/axios"; // Axios instance with JWT interceptor
 import { useNavigate, Link } from "react-router-dom";
 
+// Type definition for article objects
 type Article = {
   id: number;
   title: string;
@@ -14,45 +19,48 @@ export default function AdminDashboard() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Fetch all articles from the backend
   const fetchArticles = async () => {
     try {
-      const response = await api.get("/articles/"); // interceptor přidá token
+      const response = await api.get("/articles/"); 
       setArticles(response.data);
     } catch (err) {
-      setError("Nepodařilo se načíst články.");
+      setError("Failed to load articles.");
       console.error(err);
     }
   };
 
+  // Delete a specific article by ID
   const deleteArticle = async (id: number) => {
-    const confirmed = window.confirm("Opravdu chcete smazat tento článek?");
+    const confirmed = window.confirm("Are you sure you want to delete this article?");
     if (!confirmed) return;
 
     try {
       await api.delete(`/articles/${id}`); // interceptor přidá token
       setArticles((prev) => prev.filter((a) => a.id !== id));
     } catch (err) {
-      alert("Nepodařilo se smazat článek.");
+      alert("Failed to delete article.");
       console.error(err);
     }
   };
 
+  // Load articles on component mount
   useEffect(() => {
     fetchArticles();
   }, []);
 
   return (
     <div className="max-w-4xl mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-6">Administrace článků</h1>
+      <h1 className="text-2xl font-bold mb-6">Article Administration</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <table className="w-full text-left border border-gray-300">
         <thead className="bg-gray-100">
           <tr>
             <th className="p-2 border">ID</th>
-            <th className="p-2 border">Název</th>
-            <th className="p-2 border">Autor</th>
-            <th className="p-2 border">Vytvořeno</th>
-            <th className="p-2 border">Akce</th>
+            <th className="p-2 border">Title</th>
+            <th className="p-2 border">Author</th>
+            <th className="p-2 border">Created</th>
+            <th className="p-2 border">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -73,7 +81,7 @@ export default function AdminDashboard() {
                   onClick={() => deleteArticle(article.id)}
                   className="text-red-600 hover:underline"
                 >
-                  Smazat
+                  Delete
                 </button>
               </td>
             </tr>

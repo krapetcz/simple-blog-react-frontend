@@ -1,27 +1,35 @@
+// LoginForm.tsx
+// Component for handling user login. Sends credentials to the backend and stores JWT on success.
+
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
+  // Form field states
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
+  // Handles login form submission
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // Send credentials to backend
       const response = await axios.post("http://localhost:5050/api/auth/login", {
         username,
         password,
       });
+
+      // Store received JWT tokend
       const token = response.data.access_token;
       localStorage.setItem("token", token);
       setError("");
-      navigate("/dashboard");
+      navigate("/dashboard"); // Redirect after login
     } catch (err) {
-      setError("Chybné přihlašovací údaje.");
+      setError("Invalid login credentials.");
     }
   };
 
@@ -36,7 +44,7 @@ export default function LoginForm() {
       />
       <input
         type="password"
-        placeholder="Heslo"
+        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         className="border p-2 w-full"

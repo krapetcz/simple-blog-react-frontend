@@ -1,7 +1,12 @@
+// ArticleList.tsx
+// Component that fetches and displays a list of articles from the API
+// Renders each article as an <ArticleCard />
+
 import { useEffect, useState } from "react";
-import api from "../api/axios"; // upravený import
+import api from "../api/axios"; 
 import ArticleCard from "./ArticleCard";
 
+// Type definition for articles
 type Article = {
   id: number;
   title: string;
@@ -14,13 +19,14 @@ export default function ArticleList() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [error, setError] = useState("");
 
+  // Fetch articles on component mount
   useEffect(() => {
     const fetchArticles = async () => {
       try {
         const response = await api.get("/articles/");
         setArticles(response.data);
       } catch (err) {
-        setError("Nepodařilo se načíst články.");
+        setError("Failed to load articles.");
         console.error(err);
       }
     };

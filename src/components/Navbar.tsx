@@ -1,3 +1,7 @@
+// Navbar.tsx
+// Navigation bar component displayed across the entire application
+// Shows different links based on login state (token presence in localStorage)
+
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
@@ -7,7 +11,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/"); // přesměrování
+    navigate("/"); 
   };
 
   return (
@@ -20,12 +24,12 @@ export default function Navbar() {
           {isLoggedIn && (
             <>
               <Link to="/dashboard" className="hover:underline">Admin Dashboard</Link>
-              <Link to="/admin/create" className="hover:underline">Vytvořit článek</Link>
-              <button onClick={handleLogout} className="hover:underline">Odhlásit se</button>
+              <Link to="/admin/create" className="hover:underline">Create Article</Link>
+              <button onClick={handleLogout} className="hover:underline">Logout</button>
             </>
           )}
           {!isLoggedIn && (
-            <Link to="/login" className="hover:underline">Přihlásit se</Link>
+            <Link to="/login" className="hover:underline">Login</Link>
           )}
         </div>
       </div>

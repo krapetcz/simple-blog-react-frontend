@@ -1,8 +1,17 @@
 {
-  "name": "react-vite-ts",
+  "name": "simple-blog-react-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Frontend for a blog application built with React, TypeScript, Tailwind CSS and Vite. Connects to a Flask REST API backend.",
+  "author": "KrapetCZ",
+  "license": "MIT",
+  "keywords": ["react", "vite", "typescript", "tailwind", "blog", "frontend"],  
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/KrapetCZ/simple-blog-react-frontend.git"
+
+},
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

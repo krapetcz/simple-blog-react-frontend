@@ -1,3 +1,7 @@
+// AppRouter.tsx
+// Central routing setup for the application using React Router v6
+// Defines public and admin routes, and renders the Navbar across all pages
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import HomePage from "../pages/HomePage";
@@ -6,9 +10,6 @@ import ArticleDetailPage from "../pages/ArticleDetailPage";
 import CreateArticlePage from "../pages/CreateArticlePage";
 import EditArticlePage from "../pages/EditArticlePage";
 import AdminDashboard from "../pages/AdminDashboard";
-
-
-
 
 export default function AppRouter() {
   return (
