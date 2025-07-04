@@ -61,3 +61,8 @@ The frontend will be available at [http://localhost:5173](http://localhost:5173)
 
 - The project uses protected API routes. Only authenticated users with a valid JWT can create, update or delete articles.  
 - Admin features are not restricted on the frontend but rely on backend authorization.  
+
+## Repository
+
+This project is hosted on GitHub:  
+[https://github.com/krapetcz/simple-flask-blog-frontend](https://github.com/krapetcz/simple-flask-blog-frontend)
