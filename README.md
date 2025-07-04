@@ -65,4 +65,4 @@ The frontend will be available at [http://localhost:5173](http://localhost:5173)
 ## Repository
 
 This project is hosted on GitHub:  
-[https://github.com/krapetcz/simple-flask-blog-frontend](https://github.com/krapetcz/simple-flask-blog-frontend)
+[https://github.com/krapetcz/simple-blog-react-frontend](https://github.com/krapetcz/simple-blog-react-frontend)
